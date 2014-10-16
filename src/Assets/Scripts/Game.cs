@@ -17,11 +17,13 @@ public class Game : MonoBehaviour {
 
 	void Start()
 	{
+		GameManager.instance.IsPlayable = true;
 		StartCoroutine(enemySpawner.GenerateEnemy());
 	}
 
 	void OnDestroy()
 	{
+		GameManager.instance.IsPlayable = false;
 		StopAllCoroutines();
 	}
 
