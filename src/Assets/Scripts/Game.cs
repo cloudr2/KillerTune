@@ -5,11 +5,8 @@ public class Game : MonoBehaviour {
 
 	public Player playerPrefab;
 	public EnemySpawner enemySpawnerPrefab;
-	public SpawnArea spawnAreaPrefab;
-
 	private Player player;
 	private EnemySpawner enemySpawner;
-	private SpawnArea spawnArea;
 
 	void Awake () {
 		Initialize();
@@ -17,26 +14,25 @@ public class Game : MonoBehaviour {
 
 	void Start()
 	{
-		GameManager.instance.IsPlayable = true;
+		//GameManager.instance.IsPlayable = true;
 		StartCoroutine(enemySpawner.GenerateEnemy());
+		//Debug.Log("On Start: " + GameManager.instance.IsPlayable);
 	}
 
 	void OnDestroy()
 	{
-		GameManager.instance.IsPlayable = false;
 		StopAllCoroutines();
+		//GameManager.instance.IsPlayable = false;
+		//Debug.Log("On destroy: " + GameManager.instance.IsPlayable);
 	}
 
 	private void Initialize()
 	{
 		player = (Player)Instantiate (playerPrefab);
 		player.transform.parent = transform;
-		player.initialPosition = new Vector3 (0,0,0);
+		player.initialPosition = new Vector3(0,0,0);
 
 		enemySpawner = (EnemySpawner)Instantiate (enemySpawnerPrefab);
 		enemySpawner.transform.parent = transform;
-
-		spawnArea = (SpawnArea)Instantiate (spawnAreaPrefab);
-		spawnArea.transform.parent = transform;
 	}
 }
