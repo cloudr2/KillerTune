@@ -3,27 +3,26 @@ using System.Collections;
 
 public class Game : MonoBehaviour {
 
+	public static Game instance = null;
+
 	public Player playerPrefab;
 	public EnemySpawner enemySpawnerPrefab;
+	public GUIButton restartButtonPrefab;
+
 	private Player player;
 	private EnemySpawner enemySpawner;
+	private GUIButton restartButton;
 
 	void Awake () {
-		Initialize();
+		if(instance == null){
+			instance = this;
+		}
 	}
 
 	void Start()
 	{
-		//GameManager.instance.IsPlayable = true;
+		Initialize();
 		StartCoroutine(enemySpawner.GenerateEnemy());
-		//Debug.Log("On Start: " + GameManager.instance.IsPlayable);
-	}
-
-	void OnDestroy()
-	{
-		StopAllCoroutines();
-		//GameManager.instance.IsPlayable = false;
-		//Debug.Log("On destroy: " + GameManager.instance.IsPlayable);
 	}
 
 	private void Initialize()
@@ -34,5 +33,18 @@ public class Game : MonoBehaviour {
 
 		enemySpawner = (EnemySpawner)Instantiate (enemySpawnerPrefab);
 		enemySpawner.transform.parent = transform;
+	}
+
+	public void EndGame(){
+		if(enemySpawner != null)
+		Destroy(enemySpawner.gameObject);
+
+		if(player != null)
+			Destroy(player.gameObject);
+
+		Debug.LogWarning(instance);
+		StopAllCoroutines ();
+		restartButton = (GUIButton)Instantiate(restartButtonPrefab);
+		restartButton.transform.parent = transform;
 	}
 }

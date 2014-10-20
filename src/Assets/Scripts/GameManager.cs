@@ -4,41 +4,60 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-
 	public Game gamePrefab;
+
+	public Rect scoreRect;
+	public Rect playerHPRect;
 	//public bool IsPlayable = false;
-	public Track track {get { return AudioManager.instance.randomTrackId;}}
-	public float spawnRate {get {return track.BMPtoSeconds ();}}
 
 	private Game game;
+	private static float currentSpawnRate;
+	private static Track track;
+	private string playerLives;
+	private int currentScore;
 
 	void Awake()
 	{
 		if(instance == null)
+		{
 			instance = this;
+		}
 	}
 
 	void Start () {
+
 		StartGame();
-	}
-	
-	void Update () {
-	if(Input.GetKeyDown (KeyCode.Space))
-		{
-			RestartGame();
-		}
 	}
 
 	private void StartGame()
 	{
 		Debug.Log("==START==");
+		track = (Track)AudioManager.instance.randomTrackId;
+		currentSpawnRate = track.BMPtoSeconds();
+		currentScore = 0;
 		game = (Game)Instantiate(gamePrefab);
 	}
 
-	private void RestartGame()
+	public void RestartGame()
 	{
 		Debug.Log("==END==");
 		Destroy (game.gameObject);
 		StartGame();
+	}
+
+	public static float GetCurrentSpawnRate ()
+	{
+		return currentSpawnRate;
+	}
+
+	public void SetScore(int score)
+	{
+		currentScore += score;
+	}
+
+	void OnGUI()
+	{
+		GUI.Label(scoreRect,"SCORE: " + currentScore.ToString());
+		GUI.Label(playerHPRect,"HP LEFT: " + Player.instance.HP.ToString ());
 	}
 }

@@ -3,15 +3,16 @@ using System.Collections;
 
 public static class TracksBPM{
 	
-	public static int trackCount = 6;
+	public static int trackCount = 1;
 
 	public static float[] stageTrack = {
-		60,
+		30
+		/*60,
 		120,
 		180,
 		240,
 		300,
-		360
+		360*/
 	};
 
 	public static float BMPtoSeconds (this Track track)
