@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnemyA : Enemy {
-	public float lifeSpan = 3f;
+	public int lifeSpan = 3;
 
 	void Start()
 	{
@@ -11,9 +11,10 @@ public class EnemyA : Enemy {
 
 	private IEnumerator LifeCountDown()
 	{
-		for (int i = 0; i < ; i++) {
-			
-				}
+		this.lifeSpan --;
+		Debug.Log(this.lifeSpan);
+		Debug.Log(GameManager.instance.spawnRate);
+		yield return new WaitForSeconds(GameManager.instance.spawnRate);
 		
 	}
 

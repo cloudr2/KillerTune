@@ -10,10 +10,8 @@ public class EnemySpawner : MonoBehaviour {
 
 	public IEnumerator GenerateEnemy()
 	{
-		Track track = (Track)AudioManager.instance.randomTrackId;
-		float spawnRate = track.BMPtoSeconds();
-		Debug.Log("Track: " + track);
-		Debug.Log("Spawn Rate in seconds: " + spawnRate);
+		Debug.Log("Track: " + GameManager.instance.track);
+		Debug.Log("Spawn Rate in seconds: " + GameManager.instance.spawnRate);
 
 
 		while(true){
@@ -23,7 +21,8 @@ public class EnemySpawner : MonoBehaviour {
 			newEnemy.transform.parent = enemyContainer.transform;
 			newEnemy.transform.localPosition = spawnarea.spawnRange;
 			Debug.Log(newEnemy.name + " has spawned!");
-			yield return new WaitForSeconds(spawnRate);
+			yield return new WaitForSeconds(GameManager.instance.spawnRate);
+			Debug.Log(GameManager.instance.spawnRate);
 		}
 	}
 }

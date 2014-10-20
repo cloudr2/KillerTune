@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 
 	public Game gamePrefab;
 	//public bool IsPlayable = false;
+	public Track track {get { return AudioManager.instance.randomTrackId;}}
+	public float spawnRate {get {return track.BMPtoSeconds ();}}
 
 	private Game game;
 
