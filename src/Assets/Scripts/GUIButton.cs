@@ -8,7 +8,8 @@ public class GUIButton : MonoBehaviour {
 	void OnGUI()
 	{
 		if (GUI.Button(buttonRect,"Restart")){
-			GameManager.instance.RestartGame ();
+			GameManager.instance.StartGame ();
+			Destroy (this.gameObject);
 		}
 	}
 

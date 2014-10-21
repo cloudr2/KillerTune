@@ -5,24 +5,26 @@ public class Player : MonoBehaviour {
 
 	public static Player instance = null;
 	public Vector3 initialPosition;
-	public int HP = 3;
+	public int HP;
+	public bool isDead = false;
 
 	void Awake()
 	{
-		if(instance == null){
+		if(instance == null && isDead == false){
 			instance = this;
-			this.HP = 3;
+			HP = 3;
 		}
 	}
 
 
 	void Update()
 	{
-		Debug.Log(this.HP);
-		if(this.HP < 0)
+		Debug.Log(HP);
+		if(HP <= 0)
 		{
-			if(Game.instance)
-			Game.instance.EndGame();
+			isDead = true;
+			//if(Game.instance)
+			GameManager.instance.ShowRestartButton ();
 		}
 	}
 
