@@ -17,6 +17,7 @@ public class HealthManager : MonoBehaviour {
 	
 	void OnGUI ()
 	{
+		GUI.Box(new Rect(0,Screen.height - 125,Screen.width/2/healthPercent,25),"HP");
 		GUI.Box (new Rect(0,Screen.height - 100,Screen.width/2/healthPercent,25),currentHealth+"/"+maxHealth);
 	}
 
