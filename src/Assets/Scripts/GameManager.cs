@@ -6,20 +6,21 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 	public Game gamePrefab;
 
-
 	public Rect scoreRect;
 	public Rect highScoreRect;
-	public Rect playerHPRect;
+
+	public Color BGColorA;
+	public Color BGColorB;
 
 	public GUIButton restartButtonPrefab;
 
+	public Camera camera;
 	//public bool IsPlayable = false;
 
 	private Game game;
 	private static float currentSpawnRate;
 	private static Track track;
 
-	private int currentHP;
 	private int currentScore = 0;
 
 	void Awake()
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour {
 		//reiniciar el label de currentScore = 0;
 		game = (Game)Instantiate(gamePrefab);
 		currentScore = 0;
+		HealthManager.instance.ResetHealth ();
+		StartCoroutine (FlickBackground ());
 	}
 
 	public void ShowRestartButton(){
@@ -67,13 +70,19 @@ public class GameManager : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if(Player.instance.isDead)
-			currentHP = 0;
-		else
-			currentHP = Player.instance.HP;
-		
-		GUI.Label(playerHPRect,"HP LEFT: " + currentHP.ToString ());
-		GUI.Label(scoreRect,"SCORE: " + currentScore.ToString());
-		GUI.Label(highScoreRect,"HIGHSCORE: " + ScoreManager.instance.highScore.ToString());
+		GUI.Box(scoreRect,"SCORE: " + currentScore.ToString());
+		GUI.Box(highScoreRect,"HIGHSCORE: " + ScoreManager.instance.highScore.ToString());
+	}
+
+	public IEnumerator FlickBackground()
+	{
+		while(Game.instance){
+			if(camera.backgroundColor == BGColorA)
+				camera.backgroundColor = BGColorB;
+			else
+				camera.backgroundColor = BGColorA;
+			
+			yield return new WaitForSeconds (GameManager.GetCurrentSpawnRate());
+		}
 	}
 }

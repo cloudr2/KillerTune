@@ -4,7 +4,11 @@ using System.Collections;
 public class EnemyA : Enemy {
 	public int lifeSpan = 3;
 	public int scoreValue = 100;
+	public int damage = -3;//deals damage as a negative value
+	public int heal = 1;//amount of hp recovered per kill
+
 	public GUIText GUILifeSpanPrefab;
+
 	private bool wasClicked = false;
 
 	void Start()
@@ -32,6 +36,9 @@ public class EnemyA : Enemy {
 		{
 			wasClicked = true;
 			Destroy(gameObject);
+			GameManager.instance.SetScore(this.scoreValue);
+			if(HealthManager.instance.currentHealth < HealthManager.instance.maxHealth)
+				HealthManager.instance.SetHealth(heal);
 		}
 	}
 
@@ -39,13 +46,8 @@ public class EnemyA : Enemy {
 	void OnDestroy()
 	{
 		this.StopAllCoroutines ();
-		if(wasClicked)
-		{
-			GameManager.instance.SetScore(this.scoreValue);
-		}
-		else
-		{
-			Player.instance.HP--;
-		}
+		if(!wasClicked)
+			HealthManager.instance.SetHealth(damage);
 	}
+
 }

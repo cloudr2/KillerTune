@@ -4,23 +4,21 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public static Player instance = null;
-	public Vector3 initialPosition;
-	public int HP;
 	public bool isDead = false;
+	public Vector3 initialPosition;
+	public int health;
 
 	void Awake()
 	{
 		if(instance == null && isDead == false){
 			instance = this;
-			HP = 3;
+			health  = HealthManager.instance.maxHealth;
 		}
 	}
-
-
+	
 	void Update()
 	{
-		Debug.Log(HP);
-		if(HP <= 0)
+		if(health <= 0)
 		{
 			isDead = true;
 			//if(Game.instance)
