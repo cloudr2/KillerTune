@@ -3,13 +3,14 @@ using System.Collections;
 
 public class EnemyB : Enemy {
 
-	// Use this for initialization
-	void Start () {
 	
+	void Awake()
+	{
+		this.lifeSpan = 5;
+		this.heal = 2;
+		this.damage = -5;
+		this.scoreValue = 500;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+
 }
