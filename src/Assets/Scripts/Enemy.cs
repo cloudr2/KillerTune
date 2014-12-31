@@ -3,11 +3,11 @@ using System.Collections;
 
 public abstract class Enemy : MonoBehaviour {
 
-	public int lifeSpan;
-	public int scoreValue;
-	public int damage;//deals damage as a negative value
-	public int heal;//amount of hp recovered per kill
-
+	protected abstract int lifeSpan {get;set;}
+	protected abstract int scoreValue {get;}
+	protected abstract int damage {get;}//deals damage as a negative value
+	protected abstract int heal {get;}//amount of hp recovered per kill
+	
 	public GUIText GUILifeSpanPrefab;
 
 	private bool wasClicked = false;
@@ -21,10 +21,12 @@ public abstract class Enemy : MonoBehaviour {
 	{
 		GUIText GUILifeSpan = (GUIText)Instantiate(GUILifeSpanPrefab,Camera.main.WorldToViewportPoint (this.transform.position),Quaternion.identity);
 		GUILifeSpan.transform.parent = this.transform;
+		Debug.Log(lifeSpan);
 		while(lifeSpan > 0){
-			this.lifeSpan --;
-			Debug.Log("LIFESPAN = "  + this.lifeSpan);
-			Debug.Log("EnemyA spawnRate: " + GameManager.GetCurrentSpawnRate());
+			lifeSpan --;
+			Debug.Log(lifeSpan);
+			//Debug.Log("LIFESPAN = "  + this.lifeSpan);
+		//	Debug.Log("EnemyA spawnRate: " + GameManager.GetCurrentSpawnRate());
 			GUILifeSpan.text = this.lifeSpan.ToString();
 			yield return new WaitForSeconds(GameManager.GetCurrentSpawnRate());
 		}
@@ -36,9 +38,6 @@ public abstract class Enemy : MonoBehaviour {
 		{
 			wasClicked = true;
 			Destroy(gameObject);
-			GameManager.instance.SetScore(this.scoreValue);
-			if(HealthManager.instance.currentHealth < HealthManager.instance.maxHealth)
-				HealthManager.instance.SetHealth(heal);
 		}
 	}
 		
@@ -47,6 +46,12 @@ public abstract class Enemy : MonoBehaviour {
 			this.StopAllCoroutines ();
 			if(!wasClicked)
 				HealthManager.instance.SetHealth(damage);
+			else
+			{
+				GameManager.instance.SetScore(this.scoreValue);
+				if(HealthManager.instance.currentHealth < HealthManager.instance.maxHealth)
+					HealthManager.instance.SetHealth(heal);
+			}
 		}
 
 

@@ -2,15 +2,10 @@
 using System.Collections;
 
 public class EnemyB : Enemy {
-
 	
-	void Awake()
-	{
-		this.lifeSpan = 5;
-		this.heal = 2;
-		this.damage = -5;
-		this.scoreValue = 500;
-	}
-
+	protected override int lifeSpan {get {return 5;}set{}}
+	protected override int scoreValue {get{return 500;}}
+	protected override int damage {get{return -5;}}//deals damage as a negative value
+	protected override int heal {get{return 2;}}//amount of hp recovered per kill
 
 }
